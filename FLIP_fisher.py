@@ -4,6 +4,7 @@
 
 #create a new conda enviroment with python 3.8.0
 
+## Damiano's instructions
 #conda install -c bccp pmesh
 #python -m pip install git+https://github.com/cosmodesi/pypower
 #install flip from github: https://github.com/corentinravoux/flip.git
@@ -25,8 +26,8 @@ import astropy.cosmology as acosmo
 import yaml
 
 yaml_file='input.yml'
-config=yaml.safe_load(yaml_file)
-
+with open(yaml_file, 'r') as file:
+    config = yaml.safe_load(file)
 
 #function to compute power spectrum using class
 def init_PS(kmax,cosmo_dic, redshift=0,model='nonlinearbel', kmin=1.e-5 ):
@@ -38,11 +39,11 @@ def init_PS(kmax,cosmo_dic, redshift=0,model='nonlinearbel', kmin=1.e-5 ):
     kh, pmm, pmt, ptt,fiducial = flip.power_spectra.compute_power_spectra(
     'class_engine',
     cosmo_dic, 
-    redshift = redshift,
+    redshift,
     kmin, 
     kmax, 
     1500, 
-    normalization_power_spectrum='no_normalization'
+    normalization_power_spectrum='no_normalization',
     power_spectrum_model= model 
     )
     
@@ -52,7 +53,6 @@ def init_PS(kmax,cosmo_dic, redshift=0,model='nonlinearbel', kmin=1.e-5 ):
 #####################################################################
 
 ## define input #######
-
 
 ##for numerical computation (internal flip parallelization, if the code is slow try change this)#
 size_batch = config['size_batch']
