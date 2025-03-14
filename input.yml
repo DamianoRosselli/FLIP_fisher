@@ -1,0 +1,41 @@
+### what compute
+vel_only: True
+cross: True
+
+
+cosmo_params:
+        h: 0.7
+        omega_b: 0.02230
+        omega_cdm: 0.1188
+        sigma8: 0.8
+        n_s: 0.9667
+
+
+#data file needs ra,dec (radians) and zobs##
+gal_catalog: 'file_gal.parquet'
+vel_catalog: 'file_vel.parquet'
+resfile: 'res_file.csv'
+
+
+## input for velocity
+sigma_u: 15
+sigma_v: 300
+sigma_M: 0.1
+
+
+#input for density
+gal_bias: 1.3
+sigma_g: 4
+window_size: 25
+
+
+#PS input
+kmax: 0.3
+model: 'nonlinearbel'
+
+## input redshifts
+zmin: 0.02
+zmax: 0.1
+nbins: 4
+
+
