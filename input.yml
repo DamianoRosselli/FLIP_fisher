@@ -39,7 +39,7 @@ model: 'linear'
 
 ## input redshifts
 zmin: 0.01
-zmax: 0.1
+zmax: 0.16
 nbins: 2
 
 

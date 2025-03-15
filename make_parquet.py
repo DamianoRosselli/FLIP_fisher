@@ -23,7 +23,7 @@ def simulator(seed, number_density, outfile):
 
 
     # Maximum redshift
-    z_max = 0.1
+    z_max = 0.16
 
     # Calculate comoving volume up to z_max in Mpc^3
     volume_in_Mpc3 = 4/3 * np.pi * cosmo.comoving_distance(z_max).value**3
@@ -73,7 +73,7 @@ def simulator(seed, number_density, outfile):
     galactic = coords.galactic
 
     # Apply selection criteria
-    mask = (dec_deg < -10) & (np.abs(galactic.b.degree) > 20)
+    mask = (dec_deg < 2) & (np.abs(galactic.b.degree) > 10) & (dec_deg > -62)
     filtered_df = df[mask]
 
     print(f"Selected {len(filtered_df)} points after applying criteria")
@@ -85,7 +85,7 @@ def simulator(seed, number_density, outfile):
     print("Data saved to {}".format(outfile))
 
 #velocity
-simulator(42, 5e-4/5,'file_vel.parquet')
+simulator(42, 4.5e-4/2,'file_vel.parquet')
 
 # density
-simulator(43, 5e-4*10,'file_gal.parquet')
+simulator(43, 4.5e-4*4,'file_gal.parquet')
