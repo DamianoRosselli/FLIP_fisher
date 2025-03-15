@@ -85,7 +85,7 @@ def simulator(seed, number_density, outfile):
     print("Data saved to {}".format(outfile))
 
 #velocity
-simulator(42, 5e-4,'file_vel.parquet')
+simulator(42, 5e-4/5,'file_vel.parquet')
 
 # density
-simulator(43, 5e-4*2,'file_gal.parquet')
+simulator(43, 5e-4,'file_gal.parquet')

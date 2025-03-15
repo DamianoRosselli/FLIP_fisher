@@ -1,5 +1,5 @@
-size_batch: 1
-number_worker: 1
+size_batch: 128
+number_worker: 4
 
 ### what compute
 vel_only: True
