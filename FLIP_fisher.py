@@ -186,7 +186,7 @@ for i,z in enumerate(zmean):
                     fisher_properties=fisher_prop)
         
         par_v,fmat_v = fish_vel.compute_fisher_matrix()
-        err_fs8 = np.sqrt(np.linalg.inv([[fmat]]))
+        err_fs8 = np.sqrt(np.linalg.inv([[fmat_v]]))
 
         res['type'].append('vel')
         res['z'].append(z)
