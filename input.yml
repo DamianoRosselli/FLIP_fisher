@@ -3,7 +3,7 @@ number_worker: 1
 
 ### what compute
 vel_only: True
-cross: True
+cross: False
 
 
 cosmo_params:
@@ -34,11 +34,12 @@ window_size: 25
 
 #PS input
 kmax: 0.3
-model: 'nonlinearbel'
+#model: 'nonlinearbel'
+model: 'linear'
 
 ## input redshifts
-zmin: 0.02
+zmin: 0.01
 zmax: 0.1
-nbins: 4
+nbins: 2
 
 

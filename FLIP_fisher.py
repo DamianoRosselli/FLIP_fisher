@@ -73,6 +73,7 @@ resfile = config['resfile']
 
 ## input for velocity
 sigma_u = config['sigma_u']
+sigmau_fiducial = sigma_u
 sigma_v = config['sigma_v']
 sigma_M = config['sigma_M']
 
@@ -108,10 +109,10 @@ gal = pd.read_parquet(gal_catalog)
 vel = pd.read_parquet(vel_catalog)
 
 #add info
-gal["rcom_zobs"] = cosmo.comoving_distance(gal.zobs.values).value * cosmo.h,
+gal["rcom_zobs"] = cosmo.comoving_distance(gal.zobs.values).value * cosmo.h
 gal["hubble_norm"] = cosmo.H(gal.zobs.values).value / cosmo.h
 
-vel["rcom_zobs"] = cosmo.comoving_distance(gal.zobs.values).value * cosmo.h,
+vel["rcom_zobs"] = cosmo.comoving_distance(vel.zobs.values).value * cosmo.h
 vel["hubble_norm"] = cosmo.H(vel.zobs.values).value / cosmo.h
 
 #redshift bins
@@ -137,7 +138,7 @@ for i,z in enumerate(zmean):
     #selec data
     gal_data = gal[(gal.zobs<zz[i+1]) & (gal.zobs>zz[i])]
     vel_data = vel[(vel.zobs<zz[i+1]) & (vel.zobs>zz[i])]
-    max_rcom = np.max(np.max(vel_data.rcom_zobs),np.max(gal_data.rcom_zobs))
+    max_rcom = np.max((np.max(vel_data.rcom_zobs),np.max(gal_data.rcom_zobs)))
     
     kmin = 2*np.pi/(max_rcom)
 
@@ -228,6 +229,6 @@ for i,z in enumerate(zmean):
         
     
 res_df = pd.DataFrame(res)
-res.to_csv(resfile)
+res_df.to_csv(resfile)
     
    
