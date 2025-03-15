@@ -208,7 +208,7 @@ for i,z in enumerate(zmean):
 
         betaf= (fid['fsigma_8']/fid['sigma_8'])/gal_bias
         bs8= gal_bias * fid['sigma_8']
-        param_dict = { 'beta_f':betaf, 'bs8':bs8, 'fs8':fid['fsigma_8']}
+        param_dict = { 'beta_f':betaf, 'bs8':bs8, 'fs8':fid['fsigma_8'],"sigma_M":sigma_M,"sigv": sigma_v}
 
    
         fish = fisher.FisherMatrix.init_from_covariance(
