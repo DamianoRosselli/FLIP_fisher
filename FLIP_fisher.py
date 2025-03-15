@@ -219,7 +219,7 @@ for i,z in enumerate(zmean):
 
 
         par,fmat = fish.compute_fisher_matrix()
-        err_fs8 = np.sqrt(np.linalg.inv([[fmat]]))[0][0]
+        err_fs8 = np.sqrt(np.linalg.inv(fmat))[0][0]
         
         res['type'].append('cross')
         res['z'].append(z)
