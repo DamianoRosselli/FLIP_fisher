@@ -4,6 +4,7 @@
 
 #create a new conda enviroment with python 3.8.0
 
+## Damiano's instructions
 #conda install -c bccp pmesh
 #python -m pip install git+https://github.com/cosmodesi/pypower
 #install flip from github: https://github.com/corentinravoux/flip.git
@@ -25,8 +26,8 @@ import astropy.cosmology as acosmo
 import yaml
 
 yaml_file='input.yml'
-config=yaml.safe_load(yaml_file)
-
+with open(yaml_file, 'r') as file:
+    config = yaml.safe_load(file)
 
 #function to compute power spectrum using class
 def init_PS(kmax,cosmo_dic, redshift=0,model='nonlinearbel', kmin=1.e-5 ):
@@ -38,11 +39,11 @@ def init_PS(kmax,cosmo_dic, redshift=0,model='nonlinearbel', kmin=1.e-5 ):
     kh, pmm, pmt, ptt,fiducial = flip.power_spectra.compute_power_spectra(
     'class_engine',
     cosmo_dic, 
-    redshift = redshift,
+    redshift,
     kmin, 
     kmax, 
     1500, 
-    normalization_power_spectrum='no_normalization'
+    normalization_power_spectrum='no_normalization',
     power_spectrum_model= model 
     )
     
@@ -52,7 +53,6 @@ def init_PS(kmax,cosmo_dic, redshift=0,model='nonlinearbel', kmin=1.e-5 ):
 #####################################################################
 
 ## define input #######
-
 
 ##for numerical computation (internal flip parallelization, if the code is slow try change this)#
 size_batch = config['size_batch']
@@ -73,6 +73,7 @@ resfile = config['resfile']
 
 ## input for velocity
 sigma_u = config['sigma_u']
+sigmau_fiducial = sigma_u
 sigma_v = config['sigma_v']
 sigma_M = config['sigma_M']
 
@@ -108,10 +109,10 @@ gal = pd.read_parquet(gal_catalog)
 vel = pd.read_parquet(vel_catalog)
 
 #add info
-gal["rcom_zobs"] = cosmo.comoving_distance(gal.zobs.values).value * cosmo.h,
+gal["rcom_zobs"] = cosmo.comoving_distance(gal.zobs.values).value * cosmo.h
 gal["hubble_norm"] = cosmo.H(gal.zobs.values).value / cosmo.h
 
-vel["rcom_zobs"] = cosmo.comoving_distance(gal.zobs.values).value * cosmo.h,
+vel["rcom_zobs"] = cosmo.comoving_distance(vel.zobs.values).value * cosmo.h
 vel["hubble_norm"] = cosmo.H(vel.zobs.values).value / cosmo.h
 
 #redshift bins
@@ -137,7 +138,7 @@ for i,z in enumerate(zmean):
     #selec data
     gal_data = gal[(gal.zobs<zz[i+1]) & (gal.zobs>zz[i])]
     vel_data = vel[(vel.zobs<zz[i+1]) & (vel.zobs>zz[i])]
-    max_rcom = np.max(np.max(vel_data.rcom_zobs),np.max(gal_data.rcom_zobs))
+    max_rcom = np.max((np.max(vel_data.rcom_zobs),np.max(gal_data.rcom_zobs)))
     
     kmin = 2*np.pi/(max_rcom)
 
@@ -185,7 +186,7 @@ for i,z in enumerate(zmean):
                     fisher_properties=fisher_prop)
         
         par_v,fmat_v = fish_vel.compute_fisher_matrix()
-        err_fs8 = np.sqrt(np.linalg.inv([[fmat]]))
+        err_fs8 = np.sqrt(np.linalg.inv([[fmat_v]]))
 
         res['type'].append('vel')
         res['z'].append(z)
@@ -228,6 +229,6 @@ for i,z in enumerate(zmean):
         
     
 res_df = pd.DataFrame(res)
-res.to_csv(resfile)
+res_df.to_csv(resfile)
     
    
